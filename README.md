@@ -45,7 +45,7 @@ Each word should be on a separate line, and the number of words in each file sho
 Also make sure that each file contains only words of the specified length. (5, 6, 7, 8). 
 
 ## ANSI color codes
-The program provides the color-coded letters as feedback by using ANSI color codes for green, red, and yellow.
+The program uses ANSI color codes of green, red, and yellow to color-code the letters.
 Ensure that your terminal supports ANSI escape sequences for proper color rendering.
 
 ## Additional notes
