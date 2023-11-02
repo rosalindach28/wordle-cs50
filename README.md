@@ -35,7 +35,7 @@ Replace `<wordsize>` with the desired single number representing the length of t
 4. Keep guessing until the 6th attempt is reached.
 5. If you guess the target word within the given number of attempts, you win the game.
   Otherwise, you lose and the target word will be revealed to you.
-- Note: **target word** is the word that you are trying to guess in order to win the game.
+- **target word** is the word that you are trying to guess in order to win the game.
 
 ## Custom Word Lists
 
