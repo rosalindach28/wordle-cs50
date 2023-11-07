@@ -23,6 +23,7 @@ gcc -o outputFile wordle_cs50.c
 ./wordle_cs50 <wordsize>
 ```
 Replace `<wordsize>` with the desired single number representing the length of the word that will be guessed (5, 6, 7, or 8).
+** refer to first image below **
 
 ## How to Play
 1. You will be given 6 attempts to guess the target word that is trying to be guessed.
@@ -50,14 +51,26 @@ Ensure that your terminal supports ANSI escape sequences for proper color render
 
 ## Additional notes
 I followed the prompt from Harvard's CS50 course, but I implemented what was required from scratch (including the text file handling) using C programming without the use of the CS50 library. 
-- I implemented an improved form of input validation than what was asked.
+- I implemented a more thorough form of input validation than what was asked.
 - In the original prompt: if the user enters an invalid guess (wrong length or input is not a letter), the program will simply prompt the user to enter a
- word of the specified length again, without letting the user know why it did not accept the previous submission.
-- In my version, if the user enters a word that is the wrong length or if the word includes non-alphabetical characters, the program will let them know by outputting a message with a red background (for better visibility) and then the program will prompt the user again. This adjustment makes the game more user-friendly since the user will know what to correct when inputting a guess.
+ word of the specified length again, without letting the user know why it did not accept the previous submission. (refer to image 2)
+- In my version, if the user enters a word that is the wrong length or if the word includes non-alphabetical characters, the program will let them know by outputting a message with a red background (for better visibility) and then the program will prompt the user again. This adjustment makes the game more user-friendly since the user will know what to correct when inputting a guess. (refer to image 3)
 
-## Examples of program output
+## Examples of program usage and output
 
-### Output of original CS50 program
+### Image 1: Command-line arguments
+![Screenshot of output if program runs incorrectly and correctly through usage of command-line arguments](images/wordleCS50_output2.png)
+
+
+### Image 2: Output of original CS50 program once user inputs guesses
 
 ![Screenshot of output from original CS50 program once user enters guesses, source: https://cs50.harvard.edu/x/2023/psets/2/wordle50/](images/wordleCS50_inputPrompt_original.png)
+
+### Image 3: Output of this program when user inputs guesses (loses)
+
+![Screenshot of program output, showing more thorough input validation; user lost.](images/wordleCS50_output_lost.png)
+
+### Image 4: Output of this program when user inputs guesses (wins)
+
+![Screenshot of program output, showing more thorough input validation; user wins.](images/wordleCS50_output_won.1png.png)
 
