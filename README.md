@@ -23,7 +23,7 @@ gcc -o outputFile wordle_cs50.c
 ./wordle_cs50 <wordsize>
 ```
 Replace `<wordsize>` with the desired single number representing the length of the word that will be guessed (5, 6, 7, or 8).
-** refer to first image below **
+(refer to image 1)
 
 ## How to Play
 1. You will be given 6 attempts to guess the target word that is trying to be guessed.
