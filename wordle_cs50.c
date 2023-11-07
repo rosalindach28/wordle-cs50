@@ -9,9 +9,9 @@
 // each text file contains 1000 words
 #define LISTSIZE 1000
 
-// values for colors and score 
-//EXACT == right letter, right place
-//CLOSE == right letter, wrong place; WRONG == wrong letter
+// values for colors and score
+// EXACT == right letter, right place
+// CLOSE == right letter, wrong place; WRONG == wrong letter
 #define EXACT 2 // green
 #define CLOSE 1 // yellow
 #define WRONG 0 // red
@@ -22,6 +22,7 @@
 #define RED "\e[38;2;255;255;255;1m\e[48;2;220;20;60;1m"
 #define RESET "\e[0;39m" // resets color settings; no colorful background
 
+bool isAlphabetical(const char *guess);
 char *get_guess(int length);
 char *get_target_word(const char *filename);
 int get_score(char *userGuess, int length, int *wordStatus, char *target);
@@ -101,6 +102,19 @@ int main(int argc, char *argv[])
     }
 } // end of main
 
+// ensures user input consists of only alphabetical characters
+bool isAlphabetical(const char *guess)
+{
+    while (*guess)
+    {
+        if (!isalpha(*guess))
+        {
+            return false;
+        }
+        guess++;
+    }
+    return true;
+}
 // make sure guess string is the correct length
 char *get_guess(int length)
 {
@@ -122,111 +136,120 @@ char *get_guess(int length)
         {
             userGuess[i] = tolower(userGuess[i]);
         }
-        else if (!isalpha(userGuess[i]))
+        else if (!isAlphabetical(userGuess))
         {
-            printf("Error: one or more characters is not a letter\n");
-            printf("Input a %i-letter target: ", length);
+            printf(RED "Error: one or more characters is not a letter." RESET "\n");
+            printf("Input a %i letter word: ", length);
             scanf("%s", &userGuess);
-        }
-    }
-    strcpy(wordGuess, userGuess);
-    return wordGuess;
-} // end of function
-
-// read file and get word that user will be guessing
-char *get_target_word(const char *filename)
-{
-    FILE *filePtr;
-
-    // content is an an array of strings (2d array) where each element contains a word
-    char content[LISTSIZE][10];
-    char *target = malloc(10);
-
-    // randomizes the list of words (array of strings)
-    srand(time(NULL));
-    int random = rand() % 1000;
-
-    filePtr = fopen(filename, "r");
-    if (filePtr != NULL)
-    {
-        for (int i = 0; i < LISTSIZE; i++)
-        {
-            fgets(content[i], LISTSIZE, filePtr); // read whole list of words
-        }
-        strcpy(target, content[random]); // assign random word as target word
-       // printf("%s\n", target); // for testing purposes
-        return target;
-    }
-    else
-    {
-        printf("Error, could not read file."); // could not read file
-    }
-} // end of function
-
-/*
-get score based on letter position in GET_SCORE function
-check if character being guessed exists in the target word trying to be guessed
-if it exists, check whether it is in the correct/same position as in the target word
-score according to position and existence
-2 points if letter is in target word and correct position
-1 point if letter is in target word but wrong position
-no points if not in word
-store the scores for each letter in wordStatus array
-*/
-int get_score(char *userGuess, int length, int *wordStatus, char *target)
-{
-    int score = 0;
-    for (int i = 0; i < length; i++)
-    {
-        for (int j = 0; j < length; j++)
-        {
-            if (userGuess[i] == target[j]) // guess char is in target
+            while (strlen(userGuess) != length)
             {
-
-                if (i == j) // same index/positon
-                {
-                    score += EXACT;
-                    wordStatus[i] = EXACT;
-                    break; // once matching character in exact position found, moves onto the next
-                }
-                else // guess character is in different position
-                {
-                    score += CLOSE;
-                    wordStatus[i] = CLOSE;
-                }
+                printf(RED "Word is wrong length." RESET "\nInput a %i letter word: ", length);
+                scanf("%s", &userGuess);
             }
-            else // guess char not in target
+            if (!islower(userGuess[i]))
             {
-                score += WRONG;
+                userGuess[i] = tolower(userGuess[i]);
             }
-        } // end of inner for loop
+        }
     }
-    return score;
+        strcpy(wordGuess, userGuess);
+        return wordGuess;
 } // end of function
 
-/* 
-print letters of guess in different colors according to their scores (stored in wordStatus[])
-letter is green if it is in the target word and in the correct position, worth 2 points
-letter is yellow if it is in the target word but wrong position, worth 1 point
-letter is red if not in the target word, worth 0 points
-*/
-
-void print_word(char *userGuess, int length, int *wordStatus)
-{
-    for (int i = 0; i < length; i++)
+    // read file and get word that user will be guessing
+    char *get_target_word(const char *filename)
     {
-        if (wordStatus[i] == 2)
+        FILE *filePtr;
+
+        // content is an an array of strings (2d array) where each element contains a word
+        char content[LISTSIZE][10];
+        char *target = malloc(10);
+
+        // randomizes the list of words (array of strings)
+        srand(time(NULL));
+        int random = rand() % 1000;
+
+        filePtr = fopen(filename, "r");
+        if (filePtr != NULL)
         {
-            printf(GREEN "%c" RESET, userGuess[i]);
-        }
-        else if (wordStatus[i] == 1)
-        {
-            printf(YELLOW "%c" RESET, userGuess[i]);
+            for (int i = 0; i < LISTSIZE; i++)
+            {
+                fgets(content[i], LISTSIZE, filePtr); // read whole list of words
+            }
+            strcpy(target, content[random]); // assign random word as target word
+                                             // printf("%s\n", target); // for testing purposes
+            return target;
         }
         else
         {
-            printf(RED "%c" RESET, userGuess[i]);
+            printf("Error, could not read file."); // could not read file
         }
+    } // end of function
+
+    /*
+    get score based on letter position in GET_SCORE function
+    check if character being guessed exists in the target word trying to be guessed
+    if it exists, check whether it is in the correct/same position as in the target word
+    score according to position and existence
+    2 points if letter is in target word and correct position
+    1 point if letter is in target word but wrong position
+    no points if not in word
+    store the scores for each letter in wordStatus array
+    */
+    int get_score(char *userGuess, int length, int *wordStatus, char *target)
+    {
+        int score = 0;
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                if (userGuess[i] == target[j]) // guess char is in target
+                {
+
+                    if (i == j) // same index/positon
+                    {
+                        score += EXACT;
+                        wordStatus[i] = EXACT;
+                        break; // once matching character in exact position found, moves onto the next
+                    }
+                    else // guess character is in different position
+                    {
+                        score += CLOSE;
+                        wordStatus[i] = CLOSE;
+                    }
+                }
+                else // guess char not in target
+                {
+                    score += WRONG;
+                }
+            } // end of inner for loop
+        }
+        return score;
+    } // end of function
+
+    /*
+    print letters of guess in different colors according to their scores (stored in wordStatus[])
+    letter is green if it is in the target word and in the correct position, worth 2 points
+    letter is yellow if it is in the target word but wrong position, worth 1 point
+    letter is red if not in the target word, worth 0 points
+    */
+
+    void print_word(char *userGuess, int length, int *wordStatus)
+    {
+        for (int i = 0; i < length; i++)
+        {
+            if (wordStatus[i] == 2)
+            {
+                printf(GREEN "%c" RESET, userGuess[i]);
+            }
+            else if (wordStatus[i] == 1)
+            {
+                printf(YELLOW "%c" RESET, userGuess[i]);
+            }
+            else
+            {
+                printf(RED "%c" RESET, userGuess[i]);
+            }
+        }
+        printf("\n");
     }
-    printf("\n");
-}
