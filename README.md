@@ -55,3 +55,9 @@ I followed the prompt from Harvard's CS50 course, but I implemented what was req
  word of the specified length again, without letting the user know why it did not accept the previous submission.
 - In my version, if the user enters a word that is the wrong length or if the word includes non-alphabetical characters, the program will let them know by outputting a message with a red background (for better visibility) and then the program will prompt the user again. This adjustment makes the game more user-friendly since the user will know what to correct when inputting a guess.
 
+## Examples of program output
+
+### Output of original CS50 program
+
+![Screenshot of output from original CS50 program once user enters guesses, source: https://cs50.harvard.edu/x/2023/psets/2/wordle50/](images/wordleCS50_inputPrompt_original.png)
+
